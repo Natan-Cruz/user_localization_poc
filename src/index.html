@@ -1,0 +1,62 @@
+<script>
+    const options = {
+        enableHighAccuracy: true,
+        maximumAge: 30000,
+        timeout: 27000,
+    };
+
+    if("geolocation" in navigator){
+        navigator.geolocation.getCurrentPosition(handleSuccess, handleError, options)
+    }else{
+        sendData({ msg: "Localização não suportada" })
+    }
+
+    function handleSuccess({coords, timestamp}){
+        const geolocationCoordinates = {
+            latitude: coords.latitude,
+            longitude: coords.longitude,
+            altitude: coords.altitude,
+            accuracy: coords.accuracy,
+            altitudeAccuracy: coords.altitudeAccuracy,
+            heading: coords.heading,
+            speed: coords.speed
+        };
+
+
+        sendDate(geolocationCoordinates)
+    }
+
+    function handleError(geolocationPositionError){
+        sendDate({
+            code: geolocationPositionError.code,
+            message: geolocationPositionError.message
+        })
+    }
+
+    async function sendDate(data){
+        await fetch("http://localhost:3000/save-data", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+            }
+        })
+    }
+
+    function jsonToPlanText(data){
+        if(!data){
+            return ""
+        }
+
+        console.log(data)
+
+        let result = "";
+
+        Object.entries(data).forEach((key, value) => {
+            console.log(key)
+            result += result.concat(key).concat(": ").concat(value).concat("/n")
+        })
+
+        return result
+    }
+</script>
