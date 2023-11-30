@@ -27,15 +27,6 @@ app.post("/save-data", async (req, res) => {
     }
 })
 
-;(async () => {
-    try {
-        await writeFileFS("output/location.txt", "oi", "utf8")        
-    } catch (error) {
-        console.error(error);
-    }
-})();
-
-
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server rodando na porta: ${PORT}`)
