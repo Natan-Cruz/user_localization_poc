@@ -34,7 +34,7 @@
     }
 
     async function sendDate(data){
-        await fetch("http://localhost:3000/save-data", {
+        await fetch(`${window.location.origin}/save-data`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
